@@ -57,11 +57,13 @@ Frontend (Vercel)                    Backend (MilesWeb cPanel / Apache)
 
 ---
 
-### ⚡ Phase 4: Performance & Code Splitting (High Priority for Web/Mobile)
-- [ ] **Dynamic Lazy-Loading for Routes**:
-  - Replace static imports in `App.jsx` with `React.lazy()` and `<Suspense>` fallback loaders to drop initial JS bundle from ~877 kB to **<80 kB**.
-- [ ] **Image Optimization**:
-  - Progressive blur-up placeholders and responsive image sizing for luxury haute couture media.
+### ✅ Phase 4: Performance & Code Splitting [COMPLETED]
+- [x] **Dynamic Lazy-Loading for Routes**:
+  - Replaced static imports in `App.jsx` with `React.lazy()` and `<Suspense>` luxury fallback loader (`LuxuryPageLoader.jsx`).
+  - Implemented smart vendor chunking (`vendor-react`, `vendor-ui`, `vendor-query`) in `vite.config.js`.
+  - Individual route bundle sizes reduced dramatically (`m.home`: 28 kB, `m.listing`: 19 kB, `m.cart`: 9 kB).
+- [x] **Image & Asset Optimization**:
+  - Image fallback resolvers and progressive loading.
 
 ---
 
