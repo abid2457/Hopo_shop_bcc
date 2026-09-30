@@ -1,0 +1,10 @@
+{
+  "name": "hopo-shop-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix shared/web-frontend run build",
+    "dev": "npm --prefix shared/web-frontend run dev",
+    "install:all": "npm --prefix shared/web-frontend install"
+  }
+}

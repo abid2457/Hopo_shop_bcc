@@ -1,0 +1,738 @@
+// Extended demo data for production-ready HOPO SHOP modules.
+export const ADDRESSES = [
+  {
+    id: "a1",
+    label: "Home",
+    name: "Riya Agarwal",
+    phone: "+91 98765 43210",
+    line1: "Flat 1204, Lotus Heights",
+    line2: "Bandra West",
+    city: "Mumbai",
+    state: "Maharashtra",
+    pincode: "400050",
+    isDefault: true,
+    type: "Home",
+  },
+  {
+    id: "a2",
+    label: "Office",
+    name: "Riya Agarwal",
+    phone: "+91 98765 43210",
+    line1: "12th Floor, Trident Tower",
+    line2: "BKC, Bandra East",
+    city: "Mumbai",
+    state: "Maharashtra",
+    pincode: "400051",
+    isDefault: false,
+    type: "Work",
+  },
+  {
+    id: "a3",
+    label: "Mom's",
+    name: "Sunita Agarwal",
+    phone: "+91 99876 11234",
+    line1: "B‑18, Civil Lines",
+    line2: "Near Town Hall",
+    city: "Jaipur",
+    state: "Rajasthan",
+    pincode: "302006",
+    isDefault: false,
+    type: "Other",
+  },
+];
+export const RECENT_SEARCHES = [
+  "Night Suits",
+  "Bridal blouse",
+  "Pastel lehenga",
+  "Wedding blouse",
+  "Gold jhumkas",
+];
+export const TRENDING_SEARCHES = [
+  "Wedding lehenga",
+  "Zardozi bridal blouse",
+  "Manish Malhotra",
+  "Bridal jewellery",
+  "Satin night suit",
+  "Cocktail gowns",
+  "Banarasi silk blouse",
+  "Festive cord set",
+];
+export const SUGGESTIONS = [
+  { text: "Luxury satin night suit", category: "in Night Suits" },
+  { text: "Crimson zardozi bridal blouse", category: "in Bridal Blouses" },
+  { text: "Gold embroidered wedding blouse", category: "in Wedding Blouses" },
+  { text: "Maroon block heel juttis", category: "in Footwear" },
+];
+export const ORDERS = [
+  {
+    id: "LX-10487",
+    date: "24 May 2026",
+    status: "Delivered",
+    total: 8499,
+    items: [
+      {
+        title: "Maroon silk Banarasi saree",
+        qty: 1,
+        price: 8499,
+        image: "/images/saree_wine_maroon_silk.png",
+      },
+    ],
+    deliveredOn: "27 May 2026",
+    payment: "ICICI **** 4521",
+  },
+  {
+    id: "LX-10432",
+    date: "12 May 2026",
+    status: "Out for delivery",
+    total: 8897,
+    items: [
+      {
+        title: "Crimson zardozi bridal blouse",
+        qty: 1,
+        price: 6999,
+        image: "/images/bridal_blouse_crimson_peacock.png",
+      },
+      {
+        title: "Floral cotton co-ord set",
+        qty: 1,
+        price: 1799,
+        image: "/images/indo_western_rust_peplum_set.png",
+      },
+      { title: "Gift wrap", qty: 1, price: 99, image: "/images/craftsmanship_detail.png" },
+    ],
+    deliveredOn: null,
+    payment: "UPI • riya@okhdfc",
+  },
+  {
+    id: "LX-10311",
+    date: "02 Apr 2026",
+    status: "Returned",
+    total: 18999,
+    items: [
+      {
+        title: "Champagne sequin gown",
+        qty: 1,
+        price: 18999,
+        image: "/images/indo_western_ivory_jacket_set.png",
+      },
+    ],
+    deliveredOn: "06 Apr 2026",
+    payment: "ICICI **** 4521",
+  },
+  {
+    id: "LX-10198",
+    date: "18 Mar 2026",
+    status: "Cancelled",
+    total: 5499,
+    items: [
+      {
+        title: "Gold embroidered wedding blouse",
+        qty: 1,
+        price: 5499,
+        image: "/images/wedding_blouse_crimson_deep_v.png",
+      },
+    ],
+    deliveredOn: null,
+    payment: "COD",
+  },
+];
+export const RETURN_REASONS = [
+  "Size/fit issue",
+  "Product damaged",
+  "Wrong item delivered",
+  "Quality not as expected",
+  "Colour mismatch",
+  "Changed my mind",
+];
+export const REFUND_TIMELINE = [
+  { label: "Return requested", time: "02 Apr • 6:14 PM", done: true },
+  { label: "Pickup scheduled", time: "03 Apr • 11:20 AM", done: true },
+  { label: "Item picked up", time: "04 Apr • 4:55 PM", done: true },
+  { label: "Quality check passed", time: "06 Apr • 1:30 PM", done: true },
+  { label: "Refund initiated", time: "06 Apr • 2:10 PM", done: true },
+  { label: "Refund credited to bank", time: "Expected by 09 Apr", done: false },
+];
+export const SUPPORT_TOPICS = [
+  { icon: "📦", title: "Order issues", desc: "Track, modify or cancel an order" },
+  { icon: "↩️", title: "Returns & refunds", desc: "Raise a return or check status" },
+  { icon: "💳", title: "Payments", desc: "Failed payments, refunds, GST invoice" },
+  { icon: "🚚", title: "Delivery", desc: "Check pincode, change address, slot" },
+  { icon: "🎁", title: "Coupons & rewards", desc: "Apply coupons, HOPO SHOP Points, gift cards" },
+  { icon: "👤", title: "Account & profile", desc: "Login issues, profile changes" },
+];
+export const SUPPORT_CHAT = [
+  {
+    role: "bot",
+    text: "Hi Riya 👋  I'm HOPO SHOP Assist. How can I help today?",
+    time: "12:02 PM",
+  },
+  { role: "user", text: "My bridal blouse order has not been delivered yet.", time: "12:03 PM" },
+  {
+    role: "bot",
+    text: "I can see order LX‑10432 is *Out for delivery* and expected by today, 7 PM. Would you like me to share live tracking?",
+    time: "12:03 PM",
+  },
+  { role: "user", text: "Yes please.", time: "12:04 PM" },
+  {
+    role: "bot",
+    text: "Here's the live link. If it isn't delivered by 8 PM, I'll connect you to a human agent right away.",
+    time: "12:04 PM",
+  },
+];
+export const FAQS = [
+  {
+    cat: "Orders",
+    q: "How do I track my order?",
+    a: "Open Profile → My Orders, tap an order, then Track. You'll see live status from packed to delivered.",
+  },
+  {
+    cat: "Orders",
+    q: "Can I modify an order after placing it?",
+    a: "You can change the delivery address within 30 minutes of placing the order. Other changes need cancellation.",
+  },
+  {
+    cat: "Returns",
+    q: "What is your return policy?",
+    a: "Most items can be returned within 14 days. Jewellery and custom bridal blouse pieces are non‑returnable for hygiene and bespoke fit reasons.",
+  },
+  {
+    cat: "Returns",
+    q: "When will I get my refund?",
+    a: "Refunds are credited within 5–7 business days of pickup, depending on your bank or UPI provider.",
+  },
+  {
+    cat: "Payments",
+    q: "Do you offer Cash on Delivery?",
+    a: "Yes, COD is available on orders up to ₹15,000 for serviceable pincodes.",
+  },
+  {
+    cat: "Payments",
+    q: "Is my card information secure?",
+    a: "We never store full card details. All payments go through Razorpay using bank‑grade encryption.",
+  },
+  {
+    cat: "Shipping",
+    q: "How long does delivery take?",
+    a: "Metro cities: 2–4 days. Tier 2 cities: 3–6 days. Tier 3: 5–8 days. Express delivery available in 30+ cities.",
+  },
+  {
+    cat: "Account",
+    q: "How do I change my registered mobile?",
+    a: "Profile → Edit Profile → Mobile Number. We'll verify both old and new numbers via OTP.",
+  },
+];
+export const NOTIF_PREFS = [
+  {
+    group: "Orders",
+    items: [
+      {
+        key: "order_updates",
+        label: "Order status & delivery updates",
+        desc: "Recommended",
+        on: { push: true, email: true, sms: true, whatsapp: true },
+      },
+      {
+        key: "delivery_otp",
+        label: "Delivery OTPs",
+        desc: "Required for handover",
+        on: { push: true, email: false, sms: true, whatsapp: false },
+      },
+    ],
+  },
+  {
+    group: "Offers",
+    items: [
+      {
+        key: "sale_alerts",
+        label: "Sale & festive drop alerts",
+        on: { push: true, email: true, sms: false, whatsapp: true },
+      },
+      {
+        key: "wishlist_drops",
+        label: "Wishlist price drops",
+        on: { push: true, email: true, sms: false, whatsapp: false },
+      },
+      {
+        key: "coupons",
+        label: "Personalised coupons",
+        on: { push: true, email: false, sms: false, whatsapp: false },
+      },
+    ],
+  },
+  {
+    group: "Recommendations",
+    items: [
+      {
+        key: "weekly_edit",
+        label: "Weekly style trends",
+        on: { push: false, email: true, sms: false, whatsapp: false },
+      },
+      {
+        key: "style_quiz",
+        label: "AI styling suggestions",
+        on: { push: true, email: false, sms: false, whatsapp: false },
+      },
+    ],
+  },
+];
+export const REWARDS = {
+  tier: "Gold",
+  points: 2480,
+  nextTier: "Platinum",
+  pointsToNext: 1520,
+  perks: [
+    "Free express delivery on all orders",
+    "Early access to festive sales (12h head start)",
+    "Birthday voucher worth ₹500",
+    "Dedicated stylist on WhatsApp",
+    "Free gift wrap on orders above ₹2,499",
+  ],
+  history: [
+    { date: "24 May", text: "Order LX‑10487", delta: "+170" },
+    { date: "12 May", text: "Order LX‑10432", delta: "+92" },
+    { date: "06 May", text: "Review with photo", delta: "+50" },
+    { date: "02 May", text: "Birthday bonus", delta: "+500" },
+    { date: "28 Apr", text: "Redeemed on LX‑10311", delta: "-300" },
+  ],
+};
+export const COUPONS = [
+  {
+    code: "WELCOME15",
+    title: "15% off your next order",
+    desc: "Min ₹1,999",
+    expiry: "30 Jun 2026",
+    active: true,
+    tag: "New user",
+  },
+  {
+    code: "LUXE500",
+    title: "Flat ₹500 off",
+    desc: "Min ₹2,999 • Ethnic Wear",
+    expiry: "12 Jun 2026",
+    active: true,
+  },
+  {
+    code: "ICICI10",
+    title: "10% instant discount",
+    desc: "ICICI credit cards • Max ₹750",
+    expiry: "31 Dec 2026",
+    active: true,
+    tag: "Bank",
+  },
+  {
+    code: "FESTIVE40",
+    title: "40% off Festive",
+    desc: "Min ₹2,999",
+    expiry: "Expired 28 May 2026",
+    active: false,
+  },
+  {
+    code: "FREEWRAP",
+    title: "Free gift wrap",
+    desc: "No minimum",
+    expiry: "31 Jul 2026",
+    active: true,
+  },
+];
+export const PAYMENT_METHODS = [
+  {
+    id: "pm1",
+    type: "card",
+    brand: "ICICI Visa Credit",
+    last4: "4521",
+    expiry: "08/28",
+    isDefault: true,
+  },
+  {
+    id: "pm2",
+    type: "card",
+    brand: "HDFC Mastercard Debit",
+    last4: "8821",
+    expiry: "11/27",
+    isDefault: false,
+  },
+  { id: "pm3", type: "upi", brand: "UPI", handle: "riya@okhdfc", isDefault: false },
+  { id: "pm4", type: "wallet", brand: "Paytm Wallet", balance: 320, isDefault: false },
+];
+export const RECENTLY_VIEWED_IDS = ["p2", "p6", "p3", "p7", "p5", "p1"];
+export const FREQUENTLY_BOUGHT = [
+  { id: "p1", reason: "Main item" },
+  { id: "a1", reason: "92% of buyers also bought" },
+  { id: "a3", reason: "78% of buyers also bought" },
+];
+export const DELIVERY_RESULTS = {
+  400050: { serviceable: true, days: "Tomorrow, 30 May", cod: true, express: true, returns: true },
+  560001: { serviceable: true, days: "2–3 days", cod: true, express: true, returns: true },
+  302006: { serviceable: true, days: "3–4 days", cod: true, express: false, returns: true },
+  797001: { serviceable: true, days: "6–8 days", cod: false, express: false, returns: false },
+};
+export const SIZE_GUIDE = {
+  unit: "in inches",
+  sizes: [
+    { size: "XS", bust: "32", waist: "26", hip: "35" },
+    { size: "S", bust: "34", waist: "28", hip: "37" },
+    { size: "M", bust: "36", waist: "30", hip: "39" },
+    { size: "L", bust: "38", waist: "32", hip: "41" },
+    { size: "XL", bust: "40", waist: "34", hip: "43" },
+    { size: "XXL", bust: "42", waist: "36", hip: "45" },
+  ],
+  tips: [
+    "Measure over light, well‑fitting innerwear.",
+    "Keep the tape parallel to the floor and snug, not tight.",
+    "If between two sizes, go up for ethnic and down for stretch fabrics.",
+  ],
+};
+export const GIFT_WRAP_OPTIONS = [
+  {
+    id: "g1",
+    title: "Signature Maroon Box",
+    price: 199,
+    desc: "Lined velvet box with gold ribbon",
+    image: "/images/craftsmanship_detail.png",
+  },
+  {
+    id: "g2",
+    title: "Festive Gold Pouch",
+    price: 149,
+    desc: "Brocade pouch with tassel and tag",
+    image: "/images/craftsmanship_detail.png",
+  },
+  {
+    id: "g3",
+    title: "Eco Kraft Wrap",
+    price: 99,
+    desc: "Recycled kraft with cotton twine",
+    image: "/images/craftsmanship_detail.png",
+  },
+];
+// ===== Admin demo data =====
+export const ADMIN_STATS = [
+  { label: "Revenue (today)", value: "₹4.82 L", delta: "12.4%", trend: "up" },
+  { label: "Orders (today)", value: "318", delta: "8.1%", trend: "up" },
+  { label: "AOV", value: "₹1,517", delta: "3.6%", trend: "up" },
+  { label: "Returns rate", value: "4.2%", delta: "0.8%", trend: "down" },
+];
+export const ADMIN_TOP_PRODUCTS = [
+  {
+    sku: "NS-1042",
+    name: "Classic Pure Silk Night Suit Set",
+    brand: "Anita Dongre",
+    sold: 142,
+    revenue: 1206858,
+    stock: 38,
+  },
+  {
+    sku: "LEH-2298",
+    name: "Ivory embroidered lehenga",
+    brand: "Sabyasachi",
+    sold: 38,
+    revenue: 949962,
+    stock: 9,
+  },
+  {
+    sku: "BLS-1187",
+    name: "Crimson zardozi bridal blouse",
+    brand: "Sabyasachi",
+    sold: 211,
+    revenue: 1476789,
+    stock: 64,
+  },
+  {
+    sku: "COR-0921",
+    name: "Floral cotton co‑ord set",
+    brand: "W for Woman",
+    sold: 188,
+    revenue: 338212,
+    stock: 23,
+  },
+  {
+    sku: "GWN-3310",
+    name: "Champagne sequin gown",
+    brand: "Manish Malhotra",
+    sold: 17,
+    revenue: 322983,
+    stock: 4,
+  },
+];
+export const ADMIN_ORDERS = [
+  {
+    id: "LX-10502",
+    customer: "Aanya Mehta",
+    city: "Pune",
+    total: 6299,
+    status: "Pending",
+    payment: "UPI",
+    placed: "2 mins ago",
+  },
+  {
+    id: "LX-10501",
+    customer: "Priya Sharma",
+    city: "Bengaluru",
+    total: 18999,
+    status: "Processing",
+    payment: "Card",
+    placed: "14 mins ago",
+  },
+  {
+    id: "LX-10500",
+    customer: "Meera Kapoor",
+    city: "Mumbai",
+    total: 2199,
+    status: "Shipped",
+    payment: "UPI",
+    placed: "1h ago",
+  },
+  {
+    id: "LX-10499",
+    customer: "Sneha Tiwari",
+    city: "Delhi",
+    total: 4598,
+    status: "Out for delivery",
+    payment: "COD",
+    placed: "3h ago",
+  },
+  {
+    id: "LX-10498",
+    customer: "Divya Iyer",
+    city: "Chennai",
+    total: 1499,
+    status: "Delivered",
+    payment: "Card",
+    placed: "1d ago",
+  },
+  {
+    id: "LX-10497",
+    customer: "Kiran Patel",
+    city: "Ahmedabad",
+    total: 8499,
+    status: "Returned",
+    payment: "Card",
+    placed: "2d ago",
+  },
+  {
+    id: "LX-10496",
+    customer: "Anjali Verma",
+    city: "Lucknow",
+    total: 2899,
+    status: "Cancelled",
+    payment: "COD",
+    placed: "2d ago",
+  },
+];
+export const ADMIN_CUSTOMERS = [
+  {
+    id: "C-2381",
+    name: "Riya Agarwal",
+    city: "Mumbai",
+    orders: 14,
+    ltv: 84210,
+    tier: "Gold",
+    joined: "Mar 2023",
+  },
+  {
+    id: "C-2380",
+    name: "Aanya Mehta",
+    city: "Pune",
+    orders: 6,
+    ltv: 31200,
+    tier: "Silver",
+    joined: "Aug 2024",
+  },
+  {
+    id: "C-2379",
+    name: "Meera Kapoor",
+    city: "Mumbai",
+    orders: 22,
+    ltv: 142800,
+    tier: "Platinum",
+    joined: "Jan 2022",
+  },
+  {
+    id: "C-2378",
+    name: "Sneha Tiwari",
+    city: "Delhi",
+    orders: 3,
+    ltv: 9800,
+    tier: "Bronze",
+    joined: "Feb 2025",
+  },
+  {
+    id: "C-2377",
+    name: "Divya Iyer",
+    city: "Chennai",
+    orders: 9,
+    ltv: 41900,
+    tier: "Silver",
+    joined: "Oct 2023",
+  },
+  {
+    id: "C-2376",
+    name: "Kiran Patel",
+    city: "Ahmedabad",
+    orders: 4,
+    ltv: 18200,
+    tier: "Bronze",
+    joined: "Jul 2024",
+  },
+];
+export const ADMIN_INVENTORY = [
+  {
+    sku: "NS-1042",
+    name: "Classic Pure Silk Night Suit Set",
+    variants: 5,
+    stock: 38,
+    low: false,
+    warehouse: "MUM-1",
+  },
+  {
+    sku: "LEH-2298",
+    name: "Ivory embroidered lehenga",
+    variants: 4,
+    stock: 9,
+    low: true,
+    warehouse: "MUM-1",
+  },
+  {
+    sku: "BLS-1187",
+    name: "Crimson zardozi bridal blouse",
+    variants: 6,
+    stock: 64,
+    low: false,
+    warehouse: "DEL-2",
+  },
+  {
+    sku: "COR-0921",
+    name: "Floral cotton co‑ord set",
+    variants: 5,
+    stock: 23,
+    low: false,
+    warehouse: "BLR-1",
+  },
+  {
+    sku: "GWN-3310",
+    name: "Champagne sequin gown",
+    variants: 4,
+    stock: 4,
+    low: true,
+    warehouse: "MUM-1",
+  },
+  {
+    sku: "WBL-0712",
+    name: "Gold embroidered wedding blouse",
+    variants: 6,
+    stock: 18,
+    low: false,
+    warehouse: "JAI-1",
+  },
+];
+export const ADMIN_CATEGORIES = [
+  { name: "Bridal Blouses", products: 842, sub: 6, visible: true },
+  { name: "Wedding Blouses", products: 760, sub: 6, visible: true },
+  { name: "Night Suits", products: 520, sub: 5, visible: true },
+  { name: "Lehengas", products: 412, sub: 4, visible: true },
+  { name: "Salwar Suits", products: 380, sub: 4, visible: true },
+  { name: "Indo-Western", products: 290, sub: 3, visible: true },
+  { name: "Festive Wear", products: 310, sub: 4, visible: true },
+];
+export const ADMIN_COUPONS = [
+  {
+    code: "FESTIVE40",
+    type: "Percent",
+    value: "40%",
+    min: 2999,
+    uses: 1284,
+    cap: 5000,
+    status: "Active",
+    expiry: "30 Jun 2026",
+  },
+  {
+    code: "WEDDING25",
+    type: "Percent",
+    value: "25%",
+    min: 4999,
+    uses: 411,
+    cap: 2000,
+    status: "Active",
+    expiry: "31 Jul 2026",
+  },
+  {
+    code: "ICICI10",
+    type: "Bank",
+    value: "10%",
+    min: 1500,
+    uses: 622,
+    cap: 10000,
+    status: "Active",
+    expiry: "31 Dec 2026",
+  },
+  {
+    code: "FIRST500",
+    type: "Flat",
+    value: "₹500",
+    min: 1999,
+    uses: 3211,
+    cap: 5000,
+    status: "Paused",
+    expiry: "31 Aug 2026",
+  },
+  {
+    code: "DIWALI60",
+    type: "Percent",
+    value: "60%",
+    min: 3999,
+    uses: 0,
+    cap: 8000,
+    status: "Scheduled",
+    expiry: "12 Nov 2026",
+  },
+];
+export const ADMIN_BANNERS = [
+  {
+    id: "b1",
+    title: "Royal Festive Collection",
+    slot: "Home hero #1",
+    placement: "Home",
+    live: true,
+    schedule: "Now — 30 Jun",
+  },
+  {
+    id: "b2",
+    title: "Wedding Season 40% off",
+    slot: "Home hero #2",
+    placement: "Home",
+    live: true,
+    schedule: "Now — 15 Jul",
+  },
+  {
+    id: "b3",
+    title: "ICICI 10% off",
+    slot: "Cart strip",
+    placement: "Cart",
+    live: true,
+    schedule: "Ongoing",
+  },
+  {
+    id: "b4",
+    title: "Diwali sneak peek",
+    slot: "Discover top",
+    placement: "Discover",
+    live: false,
+    schedule: "01 Nov — 12 Nov",
+  },
+];
+export const REVENUE_MONTHLY = [
+  { m: "Dec", v: 38 },
+  { m: "Jan", v: 42 },
+  { m: "Feb", v: 51 },
+  { m: "Mar", v: 47 },
+  { m: "Apr", v: 63 },
+  { m: "May", v: 74 },
+];
+export const TRAFFIC_SOURCES = [
+  { src: "Direct", pct: 32 },
+  { src: "Instagram", pct: 26 },
+  { src: "Google", pct: 18 },
+  { src: "Email", pct: 12 },
+  { src: "Referral", pct: 8 },
+  { src: "Other", pct: 4 },
+];

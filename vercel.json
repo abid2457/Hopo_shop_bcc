@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm --prefix shared/web-frontend run build",
+  "outputDirectory": "shared/web-frontend/dist",
+  "installCommand": "npm --prefix shared/web-frontend install",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

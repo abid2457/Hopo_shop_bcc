@@ -1,0 +1,73 @@
+name: hopo_shop
+description: "Hopo Shop — Premium Fashion Store E-Commerce App"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: any
+  riverpod_annotation: any
+
+  # Routing
+  go_router: any
+
+  # Networking
+  dio: any
+
+  # Firebase
+  firebase_core: any
+  firebase_auth: any
+  firebase_messaging: any
+
+  # UI & Design
+  google_fonts: any
+  cached_network_image: any
+  flutter_svg: any
+  shimmer: any
+  flutter_animate: any
+  lucide_icons_flutter: any
+  smooth_page_indicator: any
+  flutter_staggered_grid_view: any
+
+  # Payments
+  razorpay_flutter: any
+
+  # Forms & Validation
+  flutter_form_builder: any
+  form_builder_validators: any
+
+  # Storage
+  shared_preferences: any
+  flutter_secure_storage: any
+
+  # Notifications
+  flutter_local_notifications: any
+
+  # Network Monitoring
+  connectivity_plus: any
+
+  # Image Handling
+  image_picker: any
+
+  # Utilities
+  intl: any
+  url_launcher: any
+  json_annotation: any
+  equatable: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: any
+  json_serializable: any
+  riverpod_generator: any
+
+flutter:
+  uses-material-design: true
