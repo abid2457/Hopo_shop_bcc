@@ -6,12 +6,30 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// HOPO SHOP INDIA — Standard Vite + React + Tailwind CSS Build Configuration (JavaScript)
+// HOPO SHOP INDIA — Optimized Vite + React + Tailwind CSS Build Configuration
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  build: {
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-ui": [
+            "lucide-react",
+            "clsx",
+            "tailwind-merge",
+            "class-variance-authority",
+            "sonner",
+          ],
+          "vendor-query": ["@tanstack/react-query"],
+        },
+      },
     },
   },
   server: {
