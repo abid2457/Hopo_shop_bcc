@@ -1,10 +1,8 @@
 -- ============================================================================
 -- HOPO SHOP E-COMMERCE DATABASE SCHEMA (MySQL 8.0+ / 9.0+)
 -- Engine: InnoDB | Charset: utf8mb4 | Collation: utf8mb4_unicode_ci
+-- Compatible with: MilesWeb Shared Hosting, cPanel, phpMyAdmin
 -- ============================================================================
-
-CREATE DATABASE IF NOT EXISTS hopo_shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE hopo_shop;
 
 -- 1. USERS TABLE
 CREATE TABLE IF NOT EXISTS users (

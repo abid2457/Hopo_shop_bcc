@@ -1,9 +1,8 @@
 -- ============================================================================
 -- HOPO SHOP SEED DATA
 -- Fully authentic product catalog, variants, inventory, coupons, and accounts.
+-- Compatible with: MilesWeb Shared Hosting, cPanel, phpMyAdmin
 -- ============================================================================
-
-USE hopo_shop;
 
 -- Disable foreign key checks for clean seed
 SET FOREIGN_KEY_CHECKS = 0;
