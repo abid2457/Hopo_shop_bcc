@@ -40,18 +40,20 @@ Frontend (Vercel)                    Backend (MilesWeb cPanel / Apache)
 
 ---
 
-### 🚀 Phase 3: MilesWeb PHP Backend & MySQL Connection [IN PROGRESS — PRIORITY 1]
-- [ ] **Database Setup**:
-  - [ ] Create MySQL Database & User in MilesWeb cPanel (prefix: `velloreh1_*`).
-  - [ ] Import `backend/database/schema_production.sql` via phpMyAdmin.
-  - [ ] Import initial sample products & categories from `backend/database/seed.sql`.
-- [ ] **Backend Deployment on MilesWeb**:
-  - [ ] Configure `backend/.env` with MilesWeb DB credentials (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `JWT_SECRET`).
-  - [ ] Set `FRONTEND_URL` to Vercel deployment domain for CORS.
-  - [ ] Upload `backend/` files to MilesWeb domain folder (e.g. `api.yourdomain.com` or `yourdomain.com/api`).
-- [ ] **Frontend Environment Configuration**:
-  - [ ] Add `VITE_API_BASE_URL=https://api.yourdomain.com` to Vercel environment variables.
-  - [ ] Verify live API handshake from Vercel to MilesWeb.
+### ✅ Phase 3: MilesWeb PHP Backend & MySQL Connection [COMPLETED]
+- [x] **Database Setup**:
+  - [x] Created MySQL Database `velloreh1_Hoposhop` & User `velloreh1_Hoposhop` in MilesWeb.
+  - [x] Imported `backend/database/schema_production.sql` via phpMyAdmin (tables created).
+  - [x] Imported `backend/database/seed.sql` via phpMyAdmin (sample luxury catalog & coupons seeded).
+- [x] **Backend Deployment on MilesWeb**:
+  - [x] Configured `backend/.env` with database credentials and CORS for Vercel.
+  - [x] Created `backend/index.php` and `backend/.htaccess` routing bridges.
+  - [x] Uploaded and extracted backend files into `api.sribalajicomputers.net`.
+  - [x] Subdomain `https://api.sribalajicomputers.net` activated in MilesWeb panel.
+  - [x] Live health check verified: `https://api.sribalajicomputers.net/api/health` ➡️ `{"status":"healthy","database":"connected"}`.
+  - [x] Live catalog verified: `https://api.sribalajicomputers.net/api/products`.
+- [x] **Frontend Environment Configuration**:
+  - [x] Set `VITE_API_BASE_URL=https://api.sribalajicomputers.net`.
 
 ---
 
