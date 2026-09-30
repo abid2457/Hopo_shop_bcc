@@ -152,7 +152,7 @@ class AuthController
         }
 
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT id, name, display_name, email, phone, alternate_phone, role, job_title, department, tier, points, avatar_url, created_at, updated_at, last_login_at, last_password_change_at FROM users WHERE id = ? LIMIT 1");
+        $stmt = $pdo->prepare("SELECT id, name, email, phone, role, tier, points, avatar_url, created_at, updated_at FROM users WHERE id = ? LIMIT 1");
         $stmt->execute([$userPayload['id']]);
         $user = $stmt->fetch();
 
@@ -164,23 +164,23 @@ class AuthController
             'id'                   => $user['id'],
             'adminId'              => $user['id'],
             'name'                 => $user['name'],
-            'displayName'          => $user['display_name'] ?? $user['name'],
+            'displayName'          => $user['name'],
             'email'                => $user['email'],
             'phone'                => $user['phone'] ?? '',
-            'alternatePhone'       => $user['alternate_phone'] ?? '',
+            'alternatePhone'       => '',
             'role'                 => $user['role'] === 'ADMIN' ? 'Super Administrator' : $user['role'],
             'systemRole'           => $user['role'],
-            'jobTitle'             => $user['job_title'] ?? ($user['role'] === 'ADMIN' ? 'Super Administrator' : 'Customer'),
-            'department'           => $user['department'] ?? 'Administration',
-            'tier'                 => $user['tier'],
-            'points'               => (int)$user['points'],
-            'avatar'               => $user['avatar_url'],
+            'jobTitle'             => $user['role'] === 'ADMIN' ? 'Super Administrator' : 'Customer',
+            'department'           => 'Administration',
+            'tier'                 => $user['tier'] ?? 'Silver',
+            'points'               => (int)($user['points'] ?? 0),
+            'avatar'               => $user['avatar_url'] ?? null,
             'accountStatus'        => 'Active',
             'accessLevel'          => $user['role'] === 'ADMIN' ? 'Full Access' : 'Standard',
             'createdAt'            => $user['created_at'],
-            'updatedAt'            => $user['updated_at'],
-            'lastLoginAt'          => $user['last_login_at'] ?? $user['updated_at'],
-            'lastPasswordChangeAt' => $user['last_password_change_at'],
+            'updatedAt'            => $user['updated_at'] ?? $user['created_at'],
+            'lastLoginAt'          => date('c'),
+            'lastPasswordChangeAt' => null,
             'joinedDate'           => date('d F Y', strtotime($user['created_at'])),
         ]);
     }

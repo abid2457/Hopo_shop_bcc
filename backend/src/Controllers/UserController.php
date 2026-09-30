@@ -21,7 +21,7 @@ class UserController
         }
 
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT id, name, display_name, email, phone, alternate_phone, role, job_title, department, tier, points, avatar_url, created_at, updated_at, last_login_at, last_password_change_at FROM users WHERE id = ? LIMIT 1");
+        $stmt = $pdo->prepare("SELECT id, name, email, phone, role, tier, points, avatar_url, created_at, updated_at FROM users WHERE id = ? LIMIT 1");
         $stmt->execute([$user['id']]);
         $profile = $stmt->fetch();
 
@@ -33,23 +33,23 @@ class UserController
             'id'                   => $profile['id'],
             'adminId'              => $profile['id'],
             'name'                 => $profile['name'],
-            'displayName'          => $profile['display_name'] ?? $profile['name'],
+            'displayName'          => $profile['name'],
             'email'                => $profile['email'],
             'phone'                => $profile['phone'] ?? '',
-            'alternatePhone'       => $profile['alternate_phone'] ?? '',
+            'alternatePhone'       => '',
             'role'                 => $profile['role'] === 'ADMIN' ? 'Super Administrator' : $profile['role'],
             'systemRole'           => $profile['role'],
-            'jobTitle'             => $profile['job_title'] ?? ($profile['role'] === 'ADMIN' ? 'Super Administrator' : 'Customer'),
-            'department'           => $profile['department'] ?? 'Administration',
-            'tier'                 => $profile['tier'],
-            'points'               => (int)$profile['points'],
-            'avatar'               => $profile['avatar_url'],
+            'jobTitle'             => $profile['role'] === 'ADMIN' ? 'Super Administrator' : 'Customer',
+            'department'           => 'Administration',
+            'tier'                 => $profile['tier'] ?? 'Silver',
+            'points'               => (int)($profile['points'] ?? 0),
+            'avatar'               => $profile['avatar_url'] ?? null,
             'accountStatus'        => 'Active',
             'accessLevel'          => $profile['role'] === 'ADMIN' ? 'Full Access' : 'Standard',
             'createdAt'            => $profile['created_at'],
-            'updatedAt'            => $profile['updated_at'],
-            'lastLoginAt'          => $profile['last_login_at'] ?? $profile['updated_at'],
-            'lastPasswordChangeAt' => $profile['last_password_change_at'],
+            'updatedAt'            => $profile['updated_at'] ?? $profile['created_at'],
+            'lastLoginAt'          => date('c'),
+            'lastPasswordChangeAt' => null,
             'joinedDate'           => date('d F Y', strtotime($profile['created_at'])),
         ]);
     }
