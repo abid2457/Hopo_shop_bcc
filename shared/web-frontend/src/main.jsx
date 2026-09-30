@@ -4,6 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App";
 import "./styles.css";
+import { registerServiceWorker } from "./lib/pwa-register";
+
+// Register Service Worker for PWA functionality
+registerServiceWorker();
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -12,6 +17,7 @@ const queryClient = new QueryClient({
     },
   },
 });
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
@@ -21,3 +27,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </QueryClientProvider>
   </React.StrictMode>,
 );
+

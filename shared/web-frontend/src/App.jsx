@@ -48,6 +48,8 @@ import AnalyticsAdmin from "./routes/admin.analytics";
 import ReportsAdmin from "./routes/admin.reports";
 import AdminOffers from "./routes/admin.offers";
 import AdminPricing from "./routes/admin.pricing";
+import { PwaInstallPrompt } from "./components/app/PwaInstallPrompt";
+
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname, search } = useLocation();
@@ -56,20 +58,24 @@ function ScrollToTop() {
   }, [pathname, search]);
   return null;
 }
+
 // Dynamic Legacy /m/product/:id Redirect Helper
 function LegacyProductRedirect() {
   const { id } = useParams();
   return <Navigate to={id ? `/product/${id}` : "/listing"} replace />;
 }
+
 // Dynamic Legacy /m/order/:id Redirect Helper
 function LegacyOrderRedirect() {
   const { id } = useParams();
   return <Navigate to={id ? `/order/${id}` : "/orders"} replace />;
 }
+
 export function App() {
   return (
     <>
       <ScrollToTop />
+      <PwaInstallPrompt />
       <Routes>
         {/* Root Redirect */}
         <Route path="/" element={<Navigate to="/home" replace />} />

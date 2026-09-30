@@ -23,6 +23,7 @@ import {
   ArrowRight,
   CreditCard,
   LayoutGrid,
+  Download,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { GlobalSearch } from "./GlobalSearch";
@@ -586,6 +587,22 @@ export function AppHeader({ title, back, showSearch = true, showBell = true }) {
                 )}
               </Link>
             )}
+
+            {/* Install Hopo App PWA Button */}
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                window.dispatchEvent(new CustomEvent("pwa-open-install-prompt"));
+              }}
+              className="w-full px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition flex items-center justify-between text-[#7A1C35] bg-[#FAF3E0] border border-[#D4AF37]/50 hover:bg-[#F3E8CE] cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <Download className="h-4 w-4 text-[#7A1C35]" />
+                <span className="font-semibold">Install Hopo App</span>
+              </div>
+              <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
+            </button>
           </nav>
 
           {/* Quick Category Grid in Mobile Drawer */}
