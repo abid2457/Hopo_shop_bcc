@@ -114,8 +114,8 @@ class AuthController
         ];
         $token = JWT::generate($tokenPayload);
 
-        // Record last login timestamp
-        $pdo->prepare("UPDATE users SET last_login_at = NOW() WHERE id = ?")->execute([$user['id']]);
+        // Update last active timestamp
+        $pdo->prepare("UPDATE users SET updated_at = NOW() WHERE id = ?")->execute([$user['id']]);
 
         Response::success([
             'token' => $token,
@@ -123,22 +123,22 @@ class AuthController
                 'id'                   => $user['id'],
                 'adminId'              => $user['id'],
                 'name'                 => $user['name'],
-                'displayName'          => $user['display_name'] ?? $user['name'],
+                'displayName'          => $user['name'],
                 'email'                => $user['email'],
                 'phone'                => $user['phone'] ?? '',
-                'alternatePhone'       => $user['alternate_phone'] ?? '',
+                'alternatePhone'       => '',
                 'role'                 => $user['role'] === 'ADMIN' ? 'Super Administrator' : $user['role'],
                 'systemRole'           => $user['role'],
-                'jobTitle'             => $user['job_title'] ?? ($user['role'] === 'ADMIN' ? 'Super Administrator' : 'Customer'),
-                'department'           => $user['department'] ?? 'Administration',
-                'tier'                 => $user['tier'],
-                'points'               => (int)$user['points'],
-                'avatar'               => $user['avatar_url'],
+                'jobTitle'             => $user['role'] === 'ADMIN' ? 'Super Administrator' : 'Customer',
+                'department'           => 'Administration',
+                'tier'                 => $user['tier'] ?? 'Silver',
+                'points'               => (int)($user['points'] ?? 0),
+                'avatar'               => $user['avatar_url'] ?? null,
                 'accountStatus'        => 'Active',
                 'accessLevel'          => $user['role'] === 'ADMIN' ? 'Full Access' : 'Standard',
                 'createdAt'            => $user['created_at'],
                 'lastLoginAt'          => date('c'),
-                'lastPasswordChangeAt' => $user['last_password_change_at'] ?? null,
+                'lastPasswordChangeAt' => null,
                 'joinedDate'           => date('d F Y', strtotime($user['created_at'])),
             ],
         ], 'Signed in successfully!');

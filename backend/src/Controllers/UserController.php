@@ -82,25 +82,9 @@ class UserController
             $fields[] = "name = ?";
             $bindings[] = $name;
         }
-        if ($displayName !== null) {
-            $fields[] = "display_name = ?";
-            $bindings[] = $displayName;
-        }
         if ($phone !== null) {
             $fields[] = "phone = ?";
             $bindings[] = $phone;
-        }
-        if ($alternatePhone !== null) {
-            $fields[] = "alternate_phone = ?";
-            $bindings[] = $alternatePhone;
-        }
-        if ($jobTitle !== null) {
-            $fields[] = "job_title = ?";
-            $bindings[] = $jobTitle;
-        }
-        if ($department !== null) {
-            $fields[] = "department = ?";
-            $bindings[] = $department;
         }
         if ($avatar !== null) {
             $fields[] = "avatar_url = ?";
