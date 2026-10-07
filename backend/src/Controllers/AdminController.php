@@ -797,7 +797,11 @@ class AdminController
     public function updateOrderStatus(array $params, array $request): void
     {
         $orderId = $params['id'] ?? '';
-        $newStatus = strtoupper(trim((string)($request['body']['status'] ?? '')));
+        $body = $request['body'] ?? [];
+        $newStatus = strtoupper(trim((string)($body['status'] ?? '')));
+        $trackingNumber = isset($body['trackingNumber']) ? trim((string)$body['trackingNumber']) : null;
+        $courierPartner = isset($body['courierPartner']) ? trim((string)$body['courierPartner']) : null;
+        $note = isset($body['note']) ? trim((string)$body['note']) : '';
 
         $allowedStatuses = ['CONFIRMED', 'PACKED', 'SHIPPED', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED', 'RETURN_REQUESTED'];
         if (!in_array($newStatus, $allowedStatuses, true)) {
@@ -806,27 +810,54 @@ class AdminController
 
         $pdo = Database::getConnection();
 
-        $prevStmt = $pdo->prepare("SELECT order_status FROM orders WHERE id = ?");
+        $prevStmt = $pdo->prepare("SELECT order_status, tracking_number, courier_partner FROM orders WHERE id = ?");
         $prevStmt->execute([$orderId]);
-        $prevStatus = $prevStmt->fetchColumn() ?: '';
+        $prevRow = $prevStmt->fetch();
+        if (!$prevRow) {
+            Response::notFound("Order '{$orderId}' not found.");
+        }
+        $prevStatus = $prevRow['order_status'] ?? '';
 
-        $stmt = $pdo->prepare("UPDATE orders SET order_status = ?, updated_at = NOW() WHERE id = ?");
-        $stmt->execute([$newStatus, $orderId]);
+        $effectiveTracking = ($trackingNumber !== null && $trackingNumber !== '') ? $trackingNumber : ($prevRow['tracking_number'] ?: '');
+        $effectiveCourier = ($courierPartner !== null && $courierPartner !== '') ? $courierPartner : ($prevRow['courier_partner'] ?: 'BlueDart Express Luxe');
+
+        $stmt = $pdo->prepare("
+            UPDATE orders 
+            SET order_status = ?, tracking_number = ?, courier_partner = ?, updated_at = NOW() 
+            WHERE id = ?
+        ");
+        $stmt->execute([$newStatus, $effectiveTracking, $effectiveCourier, $orderId]);
 
         $statusDescriptions = [
-            'CONFIRMED'        => ['Order Confirmed', 'Payment and measurements verified.'],
-            'PACKED'           => ['Atelier Quality Inspection', 'Garment inspected by master artisan and boxed in luxury crate.'],
-            'SHIPPED'          => ['Dispatched via BlueDart Luxe', 'Handed over to carrier for express transit.'],
-            'OUT_FOR_DELIVERY' => ['Out for Delivery', 'Courier partner is delivering to customer today.'],
-            'DELIVERED'        => ['Delivered to Customer', 'Order successfully received.'],
+            'CONFIRMED'        => ['Order Confirmed', 'Payment and measurements verified by Hopo Atelier.'],
+            'PACKED'           => ['Atelier Quality Inspection & Packing', 'Garment inspected by master artisan and boxed in luxury crate.'],
+            'SHIPPED'          => ['Dispatched / In Transit', "Handed over to {$effectiveCourier} (Tracking ID: " . ($effectiveTracking ?: 'In Transit') . ")."],
+            'OUT_FOR_DELIVERY' => ['Out for Delivery', 'Courier partner delivery executive is out for delivery to destination today.'],
+            'DELIVERED'        => ['Delivered to Customer', 'Order successfully received with recipient verification.'],
             'CANCELLED'        => ['Order Cancelled', 'Order has been cancelled by administration.'],
             'RETURN_REQUESTED' => ['Return Requested', 'Customer initiated exchange/return request.'],
         ];
 
         if (isset($statusDescriptions[$newStatus])) {
             [$title, $desc] = $statusDescriptions[$newStatus];
+            if (!empty($note)) {
+                $desc .= ' Note: ' . $note;
+            }
             $tl = $pdo->prepare("INSERT INTO order_timeline (order_id, status, title, description, completed, event_time) VALUES (?, ?, ?, ?, 1, NOW())");
             $tl->execute([$orderId, $newStatus, $title, $desc]);
+        }
+
+        // Also update shipments table if exists
+        try {
+            $shipCheck = $pdo->prepare("SELECT id FROM shipments WHERE order_id = ? LIMIT 1");
+            $shipCheck->execute([$orderId]);
+            if ($shipCheck->fetch()) {
+                $shipStatus = in_array($newStatus, ['SHIPPED', 'OUT_FOR_DELIVERY', 'DELIVERED'], true) ? $newStatus : 'MANIFESTED';
+                $pdo->prepare("UPDATE shipments SET status = ?, tracking_number = ?, courier = ?, updated_at = NOW() WHERE order_id = ?")
+                    ->execute([$shipStatus, $effectiveTracking, $effectiveCourier, $orderId]);
+            }
+        } catch (\Throwable $se) {
+            error_log('Shipment sync notice: ' . $se->getMessage());
         }
 
         // Dispatch order progression notification to customer and admin
@@ -850,8 +881,10 @@ class AdminController
         }
 
         Response::success([
-            'orderId'   => $orderId,
-            'newStatus' => $newStatus,
+            'orderId'        => $orderId,
+            'newStatus'      => $newStatus,
+            'trackingNumber' => $effectiveTracking,
+            'courierPartner' => $effectiveCourier,
         ], "Order status updated to '{$newStatus}'.");
     }
 

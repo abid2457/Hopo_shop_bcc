@@ -22,6 +22,7 @@ import {
   getCartCalculations,
   getAuthUser,
   createOrder,
+  createOrderAsync,
   clearCart,
   clearPendingPurchaseIntent,
 } from "@/lib/store";
@@ -96,7 +97,7 @@ export function Checkout() {
   if (!user) {
     return null;
   }
-  const handlePlaceOrder = (e) => {
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
     setAddressError("");
     if (items.length === 0) {
@@ -140,14 +141,15 @@ export function Checkout() {
       id: `ADDR-TX-${Date.now()}`,
       fullName: trimmedName,
       phone: recipientPhone.trim(),
+      email: user?.email || "",
       addressLine1: trimmedLine1,
       addressLine2: addressLine2.trim() || undefined,
       city: trimmedCity,
       state: trimmedState,
       pincode: cleanPincode,
     };
-    setTimeout(() => {
-      const order = createOrder({
+    try {
+      const order = await createOrderAsync({
         userId: user.id,
         items,
         deliveryAddress: singleOrderAddress,
@@ -156,8 +158,20 @@ export function Checkout() {
       clearCart();
       clearPendingPurchaseIntent();
       setIsProcessing(false);
-      navigate(`/order/${order.id}`, { replace: true });
-    }, 1000);
+      navigate(`/order-tracking?orderId=${order.id}`, { replace: true });
+    } catch (err) {
+      console.warn("Direct checkout notice:", err);
+      const fallbackOrder = createOrder({
+        userId: user.id,
+        items,
+        deliveryAddress: singleOrderAddress,
+        paymentMethod,
+      });
+      clearCart();
+      clearPendingPurchaseIntent();
+      setIsProcessing(false);
+      navigate(`/order-tracking?orderId=${fallbackOrder.id}`, { replace: true });
+    }
   };
   const steps = [
     { key: "bag", label: "Bag", done: true },

@@ -156,24 +156,13 @@ class OrderController
                 ]);
             }
 
-            // 7. Insert order timeline events
+            // 7. Insert initial order confirmed timeline event
             $timelineSql = "
                 INSERT INTO order_timeline (order_id, status, title, description, completed, event_time)
-                VALUES (?, ?, ?, ?, ?, ?)
+                VALUES (?, 'CONFIRMED', 'Order Placed & Confirmed', 'Your luxury couture order has been verified and registered with Hopo Atelier.', 1, NOW())
             ";
             $timelineStmt = $pdo->prepare($timelineSql);
-
-            $timelineEvents = [
-                ['CONFIRMED', 'Order Confirmed', 'Order placed and payment authorized securely.', 1, date('Y-m-d H:i:s')],
-                ['PACKED', 'Atelier Quality Inspection', 'Garment undergoing master artisan check & custom packaging.', 0, date('Y-m-d H:i:s', strtotime('+1 day'))],
-                ['SHIPPED', 'Dispatched via BlueDart Luxe', "Handed over with tracking ID {$trackingNumber}.", 0, date('Y-m-d H:i:s', strtotime('+2 days'))],
-                ['OUT_FOR_DELIVERY', 'Out for Delivery', 'Courier executive en route to your shipping destination.', 0, date('Y-m-d H:i:s', strtotime('+4 days'))],
-                ['DELIVERED', 'Delivered', 'Package safely delivered to recipient.', 0, $estimatedDelivery . ' 18:00:00'],
-            ];
-
-            foreach ($timelineEvents as $ev) {
-                $timelineStmt->execute([$orderId, $ev[0], $ev[1], $ev[2], $ev[3], $ev[4]]);
-            }
+            $timelineStmt->execute([$orderId]);
 
             // 8. Record payment
             $paySql = "

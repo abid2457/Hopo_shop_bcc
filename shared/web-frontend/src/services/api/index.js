@@ -226,8 +226,9 @@ export const adminApi = {
   getOrderDetails: async (orderId) => {
     return apiService.get(`api/admin/orders/${orderId}`);
   },
-  updateOrderStatus: async (orderId, status) => {
-    return apiService.put(`api/admin/orders/${orderId}/status`, { status });
+  updateOrderStatus: async (orderId, payload) => {
+    const body = typeof payload === "string" ? { status: payload } : payload;
+    return apiService.put(`api/admin/orders/${orderId}/status`, body);
   },
   addOrderTimeline: async (orderId, title, description, status) => {
     return apiService.post(`api/admin/orders/${orderId}/timeline`, { title, description, status });

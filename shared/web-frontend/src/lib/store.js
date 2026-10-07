@@ -612,26 +612,47 @@ export async function createOrderAsync(payload) {
   try {
     const res = await orderApi.checkout({
       items: payload.items.map((it) => ({
-        productId: it.id,
+        productId: it.id || it.productId,
         variantId: it.variantId,
         size: it.size,
-        quantity: it.qty,
+        color: it.color || it.selectedColor || "",
+        quantity: it.qty || it.quantity || 1,
       })),
       deliveryAddress: payload.deliveryAddress,
       paymentMethod: payload.paymentMethod,
       appliedCoupon: calc.appliedCoupon || undefined,
     });
     if (res.success && res.data) {
-      const stored = getStored(ORDERS_KEY, null);
-      const allOrders = stored !== null ? stored : DEFAULT_ORDERS;
-      setStored(ORDERS_KEY, [res.data, ...allOrders]);
+      const stored = getStored(ORDERS_KEY, []);
+      const updated = [res.data, ...stored.filter((o) => o.id !== res.data.id)];
+      setStored(ORDERS_KEY, updated);
       clearCart();
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("hopo-store-update"));
+      }
       return res.data;
     }
   } catch (err) {
     console.warn("API checkout failed, fallback to local:", err);
   }
   return createOrder(payload);
+}
+export async function syncOrdersFromBackend() {
+  const user = getAuthUser();
+  if (!user) return [];
+  try {
+    const res = await orderApi.getOrders();
+    if (res.success && Array.isArray(res.data)) {
+      setStored(ORDERS_KEY, res.data);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("hopo-store-update"));
+      }
+      return res.data;
+    }
+  } catch (err) {
+    // Non-blocking fallback
+  }
+  return getOrders();
 }
 export function getOrderById(id) {
   const orders = getOrders();
