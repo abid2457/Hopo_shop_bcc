@@ -37,7 +37,7 @@ class UserController
             'email'                => $profile['email'],
             'phone'                => $profile['phone'] ?? '',
             'alternatePhone'       => '',
-            'role'                 => $profile['role'] === 'ADMIN' ? 'Super Administrator' : $profile['role'],
+            'role'                 => $profile['role'],
             'systemRole'           => $profile['role'],
             'jobTitle'             => $profile['role'] === 'ADMIN' ? 'Super Administrator' : 'Customer',
             'department'           => 'Administration',

@@ -201,18 +201,25 @@ export async function authenticateUserAsync(email, password) {
     const res = await authApi.login(email, password);
     if (res.success && res.data?.user) {
       const u = res.data.user;
+      const isAdmin =
+        u.role === "ADMIN" ||
+        u.systemRole === "ADMIN" ||
+        u.role === "Super Administrator" ||
+        u.accessLevel === "Full Access";
+      const normalizedRole = isAdmin ? "ADMIN" : (u.role || "CUSTOMER");
       const userProfile = {
         id: u.id,
         name: u.name,
         email: u.email,
         phone: u.phone || "",
-        role: u.role,
+        role: normalizedRole,
+        systemRole: u.systemRole || normalizedRole,
         tier: u.tier,
         points: u.points,
         joinedDate: u.joinedDate,
         avatar: u.avatar,
       };
-      if (u.role === "ADMIN") {
+      if (isAdmin) {
         loginAdmin(userProfile);
       } else {
         loginCustomer(userProfile);

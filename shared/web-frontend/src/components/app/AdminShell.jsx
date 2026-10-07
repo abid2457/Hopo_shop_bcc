@@ -24,6 +24,8 @@ import {
   CheckCheck,
   Trash2,
   ChevronRight,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { Logo } from "./Logo";
@@ -55,6 +57,7 @@ export function AdminShell({ title, subtitle, actions, children }) {
   const user = getAuthUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState(null);
   const handleAdminAuth = async (e) => {
@@ -64,11 +67,18 @@ export function AdminShell({ title, subtitle, actions, children }) {
     try {
       const res = await authApi.login(email, password);
       if (res.success && res.data?.user) {
-        if (res.data.user.role !== "ADMIN") {
+        const u = res.data.user;
+        const isAdmin =
+          u.role === "ADMIN" ||
+          u.systemRole === "ADMIN" ||
+          u.role === "Super Administrator" ||
+          u.accessLevel === "Full Access";
+        if (!isAdmin) {
           setAuthError("Authenticated account does not possess administrator privileges.");
           return;
         }
-        loginAdmin(res.data.user);
+        const adminUser = { ...u, role: "ADMIN" };
+        loginAdmin(adminUser);
       } else {
         setAuthError(res.message || "Invalid administrator credentials.");
       }
@@ -176,7 +186,14 @@ export function AdminShell({ title, subtitle, actions, children }) {
     }
   };
   // If user is not authorized as Admin, show authorization guard
-  if (!user || user.role !== "ADMIN") {
+  const isAdminUser =
+    user &&
+    (user.role === "ADMIN" ||
+      user.systemRole === "ADMIN" ||
+      user.role === "Super Administrator" ||
+      user.accessLevel === "Full Access");
+
+  if (!isAdminUser) {
     return (
       <div className="min-h-screen w-full bg-[#FAF8F5] flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white rounded-3xl border border-[#E5DCCD] p-8 shadow-luxury text-center space-y-6">
@@ -206,6 +223,7 @@ export function AdminShell({ title, subtitle, actions, children }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                placeholder="admin@hoposhop.in"
                 className="w-full px-4 py-2.5 rounded-xl border border-[#E5DCCD] text-xs focus:outline-none focus:border-[#8B1E3F] bg-[#FAF8F5]"
               />
             </div>
@@ -213,13 +231,28 @@ export function AdminShell({ title, subtitle, actions, children }) {
               <label className="block text-[11px] font-bold uppercase tracking-wider text-[#0D1B2A] mb-1">
                 Security Password
               </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-2.5 rounded-xl border border-[#E5DCCD] text-xs focus:outline-none focus:border-[#8B1E3F] bg-[#FAF8F5]"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••••••"
+                  className="w-full px-4 py-2.5 pr-11 rounded-xl border border-[#E5DCCD] text-xs focus:outline-none focus:border-[#8B1E3F] bg-[#FAF8F5]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B1E3F] hover:text-[#0D1B2A] p-1 focus:outline-none transition cursor-pointer"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
 
             {authError && (
