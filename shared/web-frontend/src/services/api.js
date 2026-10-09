@@ -47,6 +47,17 @@ export async function fetchApi(endpoint, options = {}) {
   };
   try {
     const res = await fetch(url, { ...options, headers });
+    if (res.status === 401 && token) {
+      // If server rejected token (e.g. expired session), notify app
+      try {
+        const errJson = await res.clone().json();
+        if (typeof window !== "undefined" && errJson?.message) {
+          window.dispatchEvent(new CustomEvent("hopo-auth-expired", { detail: errJson.message }));
+        }
+      } catch {
+        // ignore
+      }
+    }
     const contentType = res.headers.get("content-type") || "";
     if (!contentType.includes("application/json")) {
       const statusText = res.statusText || (res.ok ? "OK" : "Error");

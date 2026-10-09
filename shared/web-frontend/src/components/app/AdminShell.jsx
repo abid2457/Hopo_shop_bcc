@@ -60,6 +60,16 @@ export function AdminShell({ title, subtitle, actions, children }) {
   const [showPassword, setShowPassword] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState(null);
+
+  useEffect(() => {
+    const handleAuthExpired = (e) => {
+      setAuthError(e.detail || "Your administrative security session has expired. Please authenticate to continue.");
+      logoutUser();
+    };
+    window.addEventListener("hopo-auth-expired", handleAuthExpired);
+    return () => window.removeEventListener("hopo-auth-expired", handleAuthExpired);
+  }, []);
+
   const handleAdminAuth = async (e) => {
     if (e) e.preventDefault();
     setAuthLoading(true);
@@ -186,8 +196,10 @@ export function AdminShell({ title, subtitle, actions, children }) {
     }
   };
   // If user is not authorized as Admin, show authorization guard
+  const token = typeof window !== "undefined" ? localStorage.getItem("hopo_auth_token") : null;
   const isAdminUser =
     user &&
+    token &&
     (user.role === "ADMIN" ||
       user.systemRole === "ADMIN" ||
       user.role === "Super Administrator" ||

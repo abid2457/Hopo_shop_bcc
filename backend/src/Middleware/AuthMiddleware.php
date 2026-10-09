@@ -47,6 +47,13 @@ class AuthMiddleware
         if (!$authHeader && isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
         }
+        if (!$authHeader && isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            $authHeader = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+        }
+        if (!$authHeader && function_exists('apache_request_headers')) {
+            $apache = apache_request_headers();
+            $authHeader = $apache['Authorization'] ?? $apache['authorization'] ?? null;
+        }
 
         if ($authHeader && preg_match('/Bearer\s+(\S+)/i', $authHeader, $matches)) {
             return $matches[1];

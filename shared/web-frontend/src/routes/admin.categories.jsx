@@ -117,18 +117,20 @@ export function CategoriesAdmin() {
       setFormError("Category Name is required.");
       return;
     }
-    if (!formData.image_url) {
-      setFormError("Category Cover Image is required.");
-      return;
-    }
     setSubmitting(true);
     const slug = formData.slug.trim() || formData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const image_url = formData.image_url.trim() || "/images/bridal_blouse_crimson_peacock.png";
+    const payload = {
+      ...formData,
+      slug,
+      image_url,
+      title: formData.title.trim() || formData.name.trim(),
+      eyebrow: formData.eyebrow.trim() || "ATELIER COUTURE COLLECTION",
+      display_order: Number(formData.display_order) || 1,
+    };
     try {
       if (isEditing && formData.id) {
-        const res = await adminApi.updateCategory(formData.id, {
-          ...formData,
-          slug,
-        });
+        const res = await adminApi.updateCategory(formData.id, payload);
         if (res.success) {
           notifyCatalogUpdated();
           setIsModalOpen(false);
@@ -137,10 +139,7 @@ export function CategoriesAdmin() {
           setFormError(res.message || "Failed to update category.");
         }
       } else {
-        const res = await adminApi.createCategory({
-          ...formData,
-          slug,
-        });
+        const res = await adminApi.createCategory(payload);
         if (res.success) {
           notifyCatalogUpdated();
           setIsModalOpen(false);

@@ -22,7 +22,7 @@ class JWT
     public static function generate(array $payload, ?int $ttl = null): string
     {
         $secret = Config::get('JWT_SECRET', 'hopo_shop_atelier_ultra_secure_jwt_secret_key_2026_luxury_brand');
-        $ttl = $ttl ?? (int)Config::get('JWT_TTL', 86400);
+        $ttl = $ttl ?? (int)Config::get('JWT_TTL', 2592000); // 30 days session validity
 
         $header = [
             'typ' => 'JWT',

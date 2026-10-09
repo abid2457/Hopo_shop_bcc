@@ -483,19 +483,19 @@ class AdminController
             $body['subs'] = $body['subcategories'];
         }
 
-        $missing = Validator::requireFields($body, ['name', 'slug', 'title', 'image_url']);
+        $missing = Validator::requireFields($body, ['name', 'slug']);
         if (!empty($missing)) {
             Response::validationError('Missing category fields: ' . implode(', ', $missing));
         }
 
         $name = Validator::sanitizeString($body['name']);
         $slug = preg_replace('/[^a-z0-9-]+/', '-', strtolower(trim((string)$body['slug'])));
-        $title = Validator::sanitizeString($body['title']);
+        $title = !empty($body['title']) ? Validator::sanitizeString($body['title']) : $name;
         $subtitle = Validator::sanitizeString($body['subtitle'] ?? '');
         $eyebrow = Validator::sanitizeString($body['eyebrow'] ?? 'ATELIER COLLECTION');
         $description = Validator::sanitizeString($body['description'] ?? '');
-        $imageUrl = trim((string)$body['image_url']);
-        $displayOrder = (int)($body['display_order'] ?? 0);
+        $imageUrl = !empty($body['image_url']) ? trim((string)$body['image_url']) : '/images/bridal_blouse_crimson_peacock.png';
+        $displayOrder = (int)($body['display_order'] ?? 1);
         $status = ($body['status'] ?? 'active') === 'inactive' ? 'inactive' : 'active';
         
         $subs = is_array($body['subs'] ?? null) ? $body['subs'] : [];
