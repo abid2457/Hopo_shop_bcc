@@ -174,7 +174,7 @@ class AdminController
                 p.brand,
                 p.title,
                 p.category_id,
-                c.name AS category,
+                (SELECT c.name FROM categories c WHERE c.id = p.category_id LIMIT 1) AS category,
                 p.subcategory,
                 p.base_price,
                 p.mrp,
@@ -198,13 +198,14 @@ class AdminController
                 p.closure,
                 p.margin,
                 p.created_at,
-                COALESCE(SUM(vs.stock), 0) AS total_stock
+                COALESCE((
+                    SELECT SUM(vs.stock) 
+                    FROM variant_sizes vs 
+                    JOIN product_variants pv ON pv.id = vs.variant_id 
+                    WHERE pv.product_id = p.id
+                ), 0) AS total_stock
             FROM products p
-            LEFT JOIN categories c ON c.id = p.category_id
             LEFT JOIN product_price_overrides ppo ON ppo.product_id = p.id
-            LEFT JOIN product_variants pv ON pv.product_id = p.id
-            LEFT JOIN variant_sizes vs ON vs.variant_id = pv.id
-            GROUP BY p.id
             ORDER BY p.created_at DESC
         ");
 
@@ -454,11 +455,20 @@ class AdminController
         $pdo = Database::getConnection();
         $stmt = $pdo->query("
             SELECT 
-                c.*,
-                COUNT(p.id) AS product_count
+                c.id,
+                c.name,
+                c.slug,
+                c.title,
+                c.subtitle,
+                c.eyebrow,
+                c.description,
+                c.image_url,
+                c.display_order,
+                c.status,
+                c.subcategories,
+                c.created_at,
+                (SELECT COUNT(*) FROM products p WHERE p.category_id = c.id AND p.is_archived = 0 AND p.status = 'active') AS product_count
             FROM categories c
-            LEFT JOIN products p ON p.category_id = c.id AND p.is_archived = 0 AND p.status = 'active'
-            GROUP BY c.id
             ORDER BY c.display_order ASC, c.id ASC
         ");
 
@@ -923,13 +933,11 @@ class AdminController
                 u.points,
                 u.avatar_url,
                 u.created_at,
-                COUNT(DISTINCT o.id) AS total_orders,
-                COALESCE(SUM(CASE WHEN o.payment_status = 'PAID' THEN o.total_amount ELSE 0 END), 0) AS total_spent,
-                MAX(o.created_at) AS last_order_date
+                (SELECT COUNT(*) FROM orders o WHERE o.user_id = u.id) AS total_orders,
+                (SELECT COALESCE(SUM(o.total_amount), 0) FROM orders o WHERE o.user_id = u.id AND o.payment_status = 'PAID') AS total_spent,
+                (SELECT MAX(o.created_at) FROM orders o WHERE o.user_id = u.id) AS last_order_date
             FROM users u
-            LEFT JOIN orders o ON o.user_id = u.id
             WHERE u.role = 'CUSTOMER'
-            GROUP BY u.id
             ORDER BY total_spent DESC, u.created_at DESC
         ");
 
