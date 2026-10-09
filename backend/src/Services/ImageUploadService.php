@@ -139,16 +139,16 @@ class ImageUploadService
             $bytes = fread($handle, 16);
             fclose($handle);
             if ($bytes !== false && strlen($bytes) >= 4) {
-                if (str_starts_with($bytes, "\xFF\xD8\xFF")) {
+                if (substr($bytes, 0, 3) === "\xFF\xD8\xFF") {
                     return 'image/jpeg';
                 }
-                if (str_starts_with($bytes, "\x89PNG\x0D\x0A\x1A\x0A")) {
+                if (substr($bytes, 0, 8) === "\x89PNG\x0D\x0A\x1A\x0A") {
                     return 'image/png';
                 }
-                if (str_starts_with($bytes, 'RIFF') && str_contains($bytes, 'WEBP')) {
+                if (substr($bytes, 0, 4) === 'RIFF' && strpos($bytes, 'WEBP') !== false) {
                     return 'image/webp';
                 }
-                if (str_contains($bytes, 'ftypavif') || str_contains($bytes, 'ftypavis')) {
+                if (strpos($bytes, 'ftypavif') !== false || strpos($bytes, 'ftypavis') !== false) {
                     return 'image/avif';
                 }
             }

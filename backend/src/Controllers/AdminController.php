@@ -32,8 +32,9 @@ class AdminController
             if (!$files) {
                 // Check if any file was uploaded
                 if (!empty($_FILES)) {
-                    $firstKey = array_key_first($_FILES);
-                    $files = $_FILES[$firstKey];
+                    $keys = array_keys($_FILES);
+                    $firstKey = $keys[0] ?? null;
+                    $files = $firstKey ? $_FILES[$firstKey] : null;
                 }
             }
 
@@ -1642,10 +1643,10 @@ class AdminController
         if (preg_match('#^https?://[^/]+/uploads/(.+)#i', $url, $matches)) {
             return '/uploads/' . $matches[1];
         }
-        if (str_starts_with($url, '/images/uploads/')) {
-            return '/uploads/' . substr($url, strlen('/images/uploads/'));
+        if (substr($url, 0, 16) === '/images/uploads/') {
+            return '/uploads/' . substr($url, 16);
         }
-        if (str_starts_with($url, 'uploads/')) {
+        if (substr($url, 0, 8) === 'uploads/') {
             return '/' . $url;
         }
         return $url;

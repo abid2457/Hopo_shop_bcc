@@ -295,10 +295,10 @@ class ProductController
         if (preg_match('#^https?://[^/]+/uploads/(.+)#i', $url, $matches)) {
             return '/uploads/' . $matches[1];
         }
-        if (str_starts_with($url, '/images/uploads/')) {
-            return '/uploads/' . substr($url, strlen('/images/uploads/'));
+        if (substr($url, 0, 16) === '/images/uploads/') {
+            return '/uploads/' . substr($url, 16);
         }
-        if (str_starts_with($url, 'uploads/')) {
+        if (substr($url, 0, 8) === 'uploads/') {
             return '/' . $url;
         }
         return $url;
